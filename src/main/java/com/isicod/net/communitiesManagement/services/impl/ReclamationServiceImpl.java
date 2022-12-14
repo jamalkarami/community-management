@@ -36,6 +36,7 @@ public class ReclamationServiceImpl implements ReclamationService {
 
     @Override
     public void saveReclamation(Reclamation reclamation) {
+        reclamation.getStatus().setCode("EV");
         reclamationRepository.save(reclamation);
     }
 
