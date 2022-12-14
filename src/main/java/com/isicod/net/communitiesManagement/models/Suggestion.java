@@ -12,8 +12,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "RECLAMATION")
-public class Reclamation {
+@Table(name = "SUGGESTION")
+public class Suggestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,15 +29,11 @@ public class Reclamation {
     private Date createdAt;
 
     @ManyToOne
-    private TypeReclamation typeReclamation;
+    private TypeReclamation typeSuggestion;
 
     @ManyToOne
-    private SousTypeReclamation innerTypeReclamation;
+    private SousTypeReclamation innerTypeSuggestion;
 
     @ManyToOne
     private Users users;
-
-    @ManyToOne
-    private Status status;
-
 }

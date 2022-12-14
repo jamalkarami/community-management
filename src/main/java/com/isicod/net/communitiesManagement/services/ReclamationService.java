@@ -19,4 +19,6 @@ public interface ReclamationService {
     public List<Reclamation> getReclamationsOfPresident(int secondes);
 
     public void saveReclamationWithPhotos(ReclamationDto reclamationDto, List<MultipartFile> files);
+
+    public List<Reclamation> getReclamationByStatus(Long idUser, String status);
 }

@@ -49,4 +49,9 @@ public class ReclamationController {
         reclamationService.saveReclamationWithPhotos(reclamationDto,reclamationDto.getFiles());
     }
 
+    @GetMapping("reclamations/{idUser}/{status}")
+    public List<Reclamation> getReclamationsByStatus(@PathVariable Long idUser, @PathVariable String status){
+        return reclamationService.getReclamationByStatus(idUser,status);
+    }
+
 }

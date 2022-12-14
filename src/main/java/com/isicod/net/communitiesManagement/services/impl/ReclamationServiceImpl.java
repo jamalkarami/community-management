@@ -67,4 +67,9 @@ public class ReclamationServiceImpl implements ReclamationService {
 
 
     }
+
+    @Override
+    public List<Reclamation> getReclamationByStatus(Long idUser, String status) {
+       return reclamationRepository.getReclamationByStatus(idUser,status);
+    }
 }

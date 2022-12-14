@@ -2,6 +2,7 @@ package com.isicod.net.communitiesManagement.repositories;
 
 import com.isicod.net.communitiesManagement.models.Citoyen;
 import com.isicod.net.communitiesManagement.models.Reclamation;
+import com.isicod.net.communitiesManagement.models.Suggestion;
 import com.isicod.net.communitiesManagement.models.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,9 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
 
     @Query(RECLAMATIONS_OF_PRESIDENT)
     public List<Reclamation> getReclamationsOfPresident(int secondes);
+
+    @Query(value = RECLAMATION_BY_STATUS,nativeQuery = true)
+    public List<Reclamation> getReclamationByStatus(@Param("idUser") Long idUsers,@Param("status") String status );
+    static final String RECLAMATION_BY_STATUS="select * from reclamation rec, status st where rec.status_id=st.id "+
+    "and st.code=:status and rec.users_id=:idUser ";
 }
