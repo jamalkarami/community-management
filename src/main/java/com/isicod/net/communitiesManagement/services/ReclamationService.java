@@ -14,7 +14,7 @@ public interface ReclamationService {
 
     public void saveReclamation(ReclamationDto reclamation, List<MultipartFile> multipart) throws IOException;
 
-    public List<Reclamation> getReclamationsOfGerant(Long idGerant);
+    public List<Reclamation> getReclamationsOfGerant(Long idGerant,String status);
 
     public void reclamationSeenByGerant(Long idReclamation);
 

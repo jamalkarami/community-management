@@ -29,9 +29,9 @@ public class ReclamationController {
         reclamationService.saveReclamation(reclamationDto,reclamationDto.getFiles());
     }
 
-    @GetMapping("reclamationsOfGerant/{idGerant}")
-    public List<Reclamation> getReclamationsOfGerant(@PathVariable Long idGerant){
-        return reclamationService.getReclamationsOfGerant(idGerant);
+    @GetMapping("reclamationsOfGerant/{idGerant}/{status}")
+    public List<Reclamation> getReclamationsOfGerant(@PathVariable Long idGerant,@PathVariable String status){
+        return reclamationService.getReclamationsOfGerant(idGerant,status);
     }
 
     @GetMapping("reclamationSeenByGerant/{idReclamation}")

@@ -88,9 +88,9 @@ public class ReclamationServiceImpl implements ReclamationService {
     }
 
     @Override
-    public List<Reclamation> getReclamationsOfGerant(Long idGerant) {
+    public List<Reclamation> getReclamationsOfGerant(Long idGerant,String status) {
         Gerant gerant=gerantRepository.findById(idGerant).get();
-        return reclamationRepository.getReclamationsOfGerant(gerant.getProfil().getId());
+        return reclamationRepository.getReclamationsOfGerant(gerant.getProfil().getId(),status);
     }
 
     @Override

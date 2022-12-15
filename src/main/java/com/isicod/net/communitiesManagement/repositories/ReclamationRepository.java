@@ -15,10 +15,10 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
     public List<Reclamation> findByUsers(Users users);
 
     static final String RECLAMATIONS_OF_GERANT="select r from Reclamation r where r.typeReclamation.profil" +
-            ".id=:id";
+            ".id=:id and status.code=:status ";
 
     @Query(RECLAMATIONS_OF_GERANT)
-    public List<Reclamation> getReclamationsOfGerant(@Param("id") Long idProfil);
+    public List<Reclamation> getReclamationsOfGerant(@Param("id") Long idProfil,@Param("status") String status);
 
     static final String RECLAMATIONS_OF_PRESIDENT="Select r from Reclamation r where (r.seenByGerant=null OR r.seenByGerant=false) " +
             "AND EXTRACT(EPOCH FROM (now() - r.createdAt)) >= :secondes";
