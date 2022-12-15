@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,8 +25,8 @@ public class ReclamationController {
     }
 
     @PostMapping("saveReclamation")
-    public void saveReclamation(@RequestBody Reclamation reclamation){
-        reclamationService.saveReclamation(reclamation);
+    public void saveReclamation(@ModelAttribute ReclamationDto reclamationDto) throws IOException {
+        reclamationService.saveReclamation(reclamationDto,reclamationDto.getFiles());
     }
 
     @GetMapping("reclamationsOfGerant/{idGerant}")
@@ -54,4 +55,28 @@ public class ReclamationController {
         return reclamationService.getReclamationByStatus(idUser,status);
     }
 
+    @PutMapping("changeReclamationStatusToTraitement/{idReclamation}")
+    public Reclamation changeReclamationStatusToTraitement(@PathVariable Long idReclamation){
+        return reclamationService.changeStatusToTraitement(idReclamation);
+    }
+
+    @PutMapping("changeReclamationStatusTpTraite/{idReclamation}")
+    public Reclamation changeReclamationStatusToTraite(@PathVariable Long idReclamation){
+        return reclamationService.changeStatusToTraite(idReclamation);
+    }
+
+    @GetMapping("reclamationNonSatisfait/{idUser}")
+    public List<Reclamation> getReclamationNonSatisfait(@PathVariable Long idUser){
+        return reclamationService.nonSatisfait(idUser);
+    }
+
+    @PutMapping("citoyenSatisfaitNonSatisfait/{idReclamation}/{satisfait}")
+    public void citoyenSatisfaitNonSatisfait(@PathVariable Long idReclamation,@PathVariable String satisfait) {
+        reclamationService.citoyenSatisfaitNonSatisfait(idReclamation,satisfait);
+    }
+
+    @GetMapping("cloturerReclamation/{idReclamation}")
+    public Reclamation cloturerReclamation(@PathVariable Long idReclamation){
+        return reclamationService.cloturerReclamation(idReclamation);
+    }
 }

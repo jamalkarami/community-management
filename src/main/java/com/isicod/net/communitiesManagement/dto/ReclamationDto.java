@@ -1,6 +1,7 @@
 package com.isicod.net.communitiesManagement.dto;
 
 import com.isicod.net.communitiesManagement.models.SousTypeReclamation;
+import com.isicod.net.communitiesManagement.models.Status;
 import com.isicod.net.communitiesManagement.models.TypeReclamation;
 import com.isicod.net.communitiesManagement.models.Users;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,12 @@ public class ReclamationDto {
     private String commentaire;
     private String message;
     private Date createdAt;
+    private String chemainPremierPhoto;
+    private String chemainDeuxsiemePhoto;
     private TypeReclamation typeReclamation;
     private SousTypeReclamation innerTypeReclamation;
     private Users users;
+    private Status status;
 
     List<MultipartFile> files;
 }

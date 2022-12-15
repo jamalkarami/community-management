@@ -1,15 +1,17 @@
 package com.isicod.net.communitiesManagement.services.impl;
 
-import com.isicod.net.communitiesManagement.models.Gerant;
-import com.isicod.net.communitiesManagement.models.Reclamation;
-import com.isicod.net.communitiesManagement.models.Suggestion;
-import com.isicod.net.communitiesManagement.models.Users;
+import com.isicod.net.communitiesManagement.dto.SuggestionDto;
+import com.isicod.net.communitiesManagement.mapper.ReclamationMapper;
+import com.isicod.net.communitiesManagement.mapper.SuggestionMapper;
+import com.isicod.net.communitiesManagement.models.*;
 import com.isicod.net.communitiesManagement.repositories.GerantRepository;
+import com.isicod.net.communitiesManagement.repositories.StatusRepository;
 import com.isicod.net.communitiesManagement.repositories.SuggestionRepository;
 import com.isicod.net.communitiesManagement.repositories.UsersRepository;
 import com.isicod.net.communitiesManagement.services.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,9 +26,21 @@ public class SuggestionServiceImpl implements SuggestionService {
     @Autowired
     private GerantRepository gerantRepository;
 
+    @Autowired
+    StatusRepository statusRepository;
+
+    @Autowired
+    SuggestionMapper suggestionMapper;
+
+
     @Override
-    public Suggestion saveSuggestion(Suggestion suggestion) {
-        return suggestionRepository.save(suggestion);
+    public void saveSuggestion(SuggestionDto suggestionDto, List<MultipartFile> multipart) {
+        Status s= statusRepository.findByCode("EV");
+        System.out.println("<<<<<<<<<"+s.getLibelle());
+
+        Suggestion r=suggestionMapper.SuggestionDtoToSuggestion(suggestionDto);
+        r.setStatus(s);
+        suggestionRepository.save(r);
     }
 
     @Override
@@ -51,5 +65,13 @@ public class SuggestionServiceImpl implements SuggestionService {
         return suggestionOfPresident;
     }
 
+    @Override
+    public List<Suggestion> getSuggestionByStatusAndUser(Long idUser, String status) {
+        return suggestionRepository.getSuggestionByStatusAndUser(idUser,status);
+    }
+
+    public List<Suggestion> getAllSuggestion(){
+        return suggestionRepository.findAll();
+    }
 
 }

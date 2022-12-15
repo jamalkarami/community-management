@@ -25,6 +25,7 @@ public class Suggestion {
     private String commentaire;
     private String message;
 
+
     @CreationTimestamp
     private Date createdAt;
 
@@ -36,4 +37,7 @@ public class Suggestion {
 
     @ManyToOne
     private Users users;
+
+    @ManyToOne
+    private Status status;
 }

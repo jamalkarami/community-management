@@ -1,6 +1,7 @@
 package com.isicod.net.communitiesManagement.dto;
 
 import com.isicod.net.communitiesManagement.models.SousTypeReclamation;
+import com.isicod.net.communitiesManagement.models.Status;
 import com.isicod.net.communitiesManagement.models.TypeReclamation;
 import com.isicod.net.communitiesManagement.models.Users;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,7 @@ public class SuggestionDto {
     private TypeReclamation typeSuggestion;
     private SousTypeReclamation innerTypeSuggestion;
     private Users users;
+    private Status status;
 
     List<MultipartFile> files;
 }

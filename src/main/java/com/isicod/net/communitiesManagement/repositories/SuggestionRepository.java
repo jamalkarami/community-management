@@ -24,4 +24,12 @@ public interface SuggestionRepository extends JpaRepository<Suggestion,Long> {
 
     @Query(SUGGESTION_OF_PRESIDENT)
     public List<Suggestion> getReclamationsOfPresident(int secondes);
+
+
+    @Query(value = SUGGESTION_BY_STATUS_USER    ,nativeQuery = true)
+    public List<Suggestion> getSuggestionByStatusAndUser(@Param("idUser") Long idUsers,@Param("status") String status );
+    static final String SUGGESTION_BY_STATUS_USER="select * from suggestion sug, status st where sug.status_id=st.id "+
+            "and st.code=:status and sug.users_id=:idUser ";
+
+
 }

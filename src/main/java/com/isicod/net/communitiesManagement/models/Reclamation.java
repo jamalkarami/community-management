@@ -24,7 +24,9 @@ public class Reclamation {
     private String autreCategorie;
     private String commentaire;
     private String message;
-
+    private String chemainPremierPhoto;
+    private String chemainDeuxsiemePhoto;
+    private String satisfait;
     @CreationTimestamp
     private Date createdAt;
 
@@ -39,5 +41,7 @@ public class Reclamation {
 
     @ManyToOne
     private Status status;
+
+
 
 }
