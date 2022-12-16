@@ -1,10 +1,10 @@
 package com.isicod.net.communitiesManagement.services;
 
 import com.isicod.net.communitiesManagement.dto.ReclamationDto;
-import com.isicod.net.communitiesManagement.dto.SuggestionDto;
 import com.isicod.net.communitiesManagement.models.Reclamation;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -33,4 +33,8 @@ public interface ReclamationService {
     public Reclamation citoyenSatisfaitNonSatisfait(Long idUser, String satisfait);
 
     public Reclamation cloturerReclamation(Long idReclamation);
+
+    public File downloadReclamationFile(String Url) throws IOException;
+
+    public File downloadReclamationDeuxiemeFile(String Url) throws IOException;
 }

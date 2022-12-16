@@ -5,10 +5,15 @@ import com.isicod.net.communitiesManagement.dto.ReclamationDto;
 import com.isicod.net.communitiesManagement.models.Reclamation;
 import com.isicod.net.communitiesManagement.services.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -79,8 +84,34 @@ public class ReclamationController {
         reclamationService.citoyenSatisfaitNonSatisfait(idReclamation,satisfait);
     }
 
-    @GetMapping("cloturerReclamation/{idReclamation}")
+    @PutMapping("cloturerReclamation/{idReclamation}")
     public Reclamation cloturerReclamation(@PathVariable Long idReclamation){
         return reclamationService.cloturerReclamation(idReclamation);
+    }
+
+    @GetMapping(value = "downloadReclamationFile")
+    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url) throws IOException {
+        if (url == null) {
+            throw new IOException();
+        }
+
+        File file = reclamationService.downloadReclamationFile(url);
+        InputStreamResource resource = new InputStreamResource(new
+                FileInputStream(file));
+        return ResponseEntity.ok().body(resource);
+
+    }
+
+    @GetMapping(value = "downloadReclamationDeuxiemeFile")
+    public ResponseEntity<InputStreamResource> downloadReclamationDeuxiemeFile(@RequestParam String url) throws IOException {
+        if (url == null) {
+            throw new IOException();
+        }
+
+        File file = reclamationService.downloadReclamationDeuxiemeFile(url);
+        InputStreamResource resource = new InputStreamResource(new
+                FileInputStream(file));
+        return ResponseEntity.ok().body(resource);
+
     }
 }

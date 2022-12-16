@@ -17,7 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReclamationServiceImpl implements ReclamationService {
@@ -49,8 +48,6 @@ public class ReclamationServiceImpl implements ReclamationService {
 
     @Override
     public void saveReclamation(ReclamationDto reclamationDto,List<MultipartFile> multipart) throws IOException {
-        List<ReclamationDto> reclamationDtoList= new ArrayList<ReclamationDto>();
-
         Status s= statusRepository.findByCode("EV");
         reclamationDto.setStatus(s);
         Reclamation reclamation= reclamationRepository.save(reclamationMapper.ReclamationDtoToReclamation(reclamationDto));
@@ -65,22 +62,23 @@ public class ReclamationServiceImpl implements ReclamationService {
             if (!Files.exists(Paths.get(outPath2))) {
                 new File(outPath2).mkdir();
             }
-
+            int i=0;
             for(MultipartFile file:multipart){
-                int i=0;
+
                 if(reclamation.getChemainPremierPhoto()==null){
-                    reclamation.setChemainPremierPhoto(outPath2+slash+file.getOriginalFilename()+"1"+reclamation.getId()+i++);
+                    reclamation.setChemainPremierPhoto("photo-"+ reclamation.getId()+ "-" + i+".jpg");
                 }
                 else {
                     if(reclamation.getChemainPremierPhoto()!=null && reclamation.getChemainDeuxsiemePhoto()==null){
-                        reclamation.setChemainDeuxsiemePhoto(outPath2+slash+file.getOriginalFilename()+"2"+reclamation.getId()+i++);
+                        reclamation.setChemainDeuxsiemePhoto("photo-"+ reclamation.getId()+ "-" + i+".jpg");
                     }
                 }
 
                 byte[] data=file.getBytes();
-                Path path= Paths.get(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT"+reclamation.getId()+i++);
+                Path path= Paths.get(outPath2+slash+"photo-"+ reclamation.getId()+ "-" + i+".jpg");
 
                 Files.write(path, data);
+                i++;
 
             }
 
@@ -164,5 +162,23 @@ public class ReclamationServiceImpl implements ReclamationService {
         Status st= new Status(4L,"CL","Clôturé");
         reclamation.setStatus(st);
         return reclamationRepository.save(reclamation);
+    }
+
+    @Override
+    public File downloadReclamationFile(String Url) throws IOException{
+        File file = new File("G:\\work\\community_management\\photo\\null\\"+Url);
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException();
+        }
+        return file;
+    }
+
+    @Override
+    public File downloadReclamationDeuxiemeFile(String Url) throws IOException {
+        File file = new File("G:\\work\\community_management\\photo\\null\\"+Url);
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException();
+        }
+        return file;
     }
 }

@@ -24,7 +24,8 @@ public class Suggestion {
     private String autreCategorie;
     private String commentaire;
     private String message;
-
+    private String chemainPremierPhoto;
+    private String chemainDeuxsiemePhoto;
 
     @CreationTimestamp
     private Date createdAt;
