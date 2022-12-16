@@ -28,7 +28,7 @@ public interface ReclamationService {
 
     public Reclamation changeStatusToTraite(Long idReclamation);
 
-    public List<Reclamation> nonSatisfait(Long idUser);
+    public List<Reclamation> nonSatisfait();
 
     public Reclamation citoyenSatisfaitNonSatisfait(Long idUser, String satisfait);
 

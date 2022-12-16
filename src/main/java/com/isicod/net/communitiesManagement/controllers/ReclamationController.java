@@ -39,9 +39,13 @@ public class ReclamationController {
         reclamationService.reclamationSeenByGerant(idReclamation);
     }
 
-    @GetMapping("reclamationsOfPresident")
-    public List<Reclamation> getReclamationsOfPresident(){
-        return reclamationService.getReclamationsOfPresident(ParametrageConstants.DUREE_ATTENTE_BY_SECONDES);
+    @GetMapping("reclamationsOfPresident/{status}")
+    public List<Reclamation> getReclamationsOfPresident(@PathVariable String status){
+        if(status != null && status.equals("NR")){
+            return reclamationService.getReclamationsOfPresident(ParametrageConstants.DUREE_ATTENTE_BY_SECONDES);
+        }else{
+            return reclamationService.nonSatisfait();
+        }
     }
 
     @PostMapping(value = "saveReclamationWithPhotos", consumes = { MediaType.APPLICATION_JSON_VALUE,
@@ -66,8 +70,8 @@ public class ReclamationController {
     }
 
     @GetMapping("reclamationNonSatisfait/{idUser}")
-    public List<Reclamation> getReclamationNonSatisfait(@PathVariable Long idUser){
-        return reclamationService.nonSatisfait(idUser);
+    public List<Reclamation> getReclamationNonSatisfait(){
+        return reclamationService.nonSatisfait();
     }
 
     @PutMapping("citoyenSatisfaitNonSatisfait/{idReclamation}/{satisfait}")

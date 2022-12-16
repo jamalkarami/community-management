@@ -32,9 +32,9 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
     "and st.code=:status and rec.users_id=:idUser ";
 
     @Query(value = GET_RECLAMATION_NON_SATIFAIT,nativeQuery = true)
-    public List<Reclamation> getReclamationNonSatisfait(@Param("idUser") Long idUsers);
+    public List<Reclamation> getReclamationNonSatisfait();
     static final String GET_RECLAMATION_NON_SATIFAIT="select * from reclamation rec , type_Reclamation ty , profil pr " +
             "  where rec.type_reclamation_id=ty.id " +
             "   and ty.profil_id=pr.id " +
-            "  and pr.id=:idUser and rec.satisfait='N' ";
+            "  and rec.satisfait='N' ";
 }

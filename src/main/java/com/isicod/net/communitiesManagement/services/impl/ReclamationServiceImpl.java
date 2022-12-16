@@ -89,6 +89,7 @@ public class ReclamationServiceImpl implements ReclamationService {
 
     @Override
     public List<Reclamation> getReclamationsOfGerant(Long idGerant,String status) {
+        System.out.println(idGerant);
         Gerant gerant=gerantRepository.findById(idGerant).get();
         return reclamationRepository.getReclamationsOfGerant(gerant.getProfil().getId(),status);
     }
@@ -138,14 +139,17 @@ public class ReclamationServiceImpl implements ReclamationService {
     }
 
     @Override
-    public List<Reclamation> nonSatisfait(Long idUser) {
-        return reclamationRepository.getReclamationNonSatisfait(idUser);
+    public List<Reclamation> nonSatisfait() {
+        return reclamationRepository.getReclamationNonSatisfait();
     }
 
     @Override
     public Reclamation citoyenSatisfaitNonSatisfait(Long idReclamation, String satisfait) {
         Reclamation reclamation=  reclamationRepository.getOne(idReclamation);
-
+        if(satisfait.equals("Y")){
+            Status s = statusRepository.findByCode("CL");
+            reclamation.setStatus(s);
+        }
         reclamation.setSatisfait(satisfait);
 
        return reclamationRepository.save(reclamation);
