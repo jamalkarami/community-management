@@ -52,7 +52,7 @@ public class ReclamationServiceImpl implements ReclamationService {
         List<ReclamationDto> reclamationDtoList= new ArrayList<ReclamationDto>();
 
         Status s= statusRepository.findByCode("EV");
-
+        reclamationDto.setStatus(s);
         Reclamation reclamation= reclamationRepository.save(reclamationMapper.ReclamationDtoToReclamation(reclamationDto));
         if(multipart!=null){
             if (!Files.exists(Paths.get(outPath))) {
@@ -68,12 +68,12 @@ public class ReclamationServiceImpl implements ReclamationService {
 
             for(MultipartFile file:multipart){
                 int i=0;
-                if(reclamationDto.getChemainPremierPhoto()==null){
-                    reclamationDto.setChemainPremierPhoto(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT"+reclamation.getId()+i++);
+                if(reclamation.getChemainPremierPhoto()==null){
+                    reclamation.setChemainPremierPhoto(outPath2+slash+file.getOriginalFilename()+"1"+reclamation.getId()+i++);
                 }
                 else {
-                    if(reclamationDto.getChemainPremierPhoto()!=null && reclamationDto.getChemainDeuxsiemePhoto()==null){
-                        reclamationDto.setChemainDeuxsiemePhoto(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT"+reclamation.getId()+i++);
+                    if(reclamation.getChemainPremierPhoto()!=null && reclamation.getChemainDeuxsiemePhoto()==null){
+                        reclamation.setChemainDeuxsiemePhoto(outPath2+slash+file.getOriginalFilename()+"2"+reclamation.getId()+i++);
                     }
                 }
 
@@ -83,9 +83,8 @@ public class ReclamationServiceImpl implements ReclamationService {
                 Files.write(path, data);
 
             }
-            Reclamation r=reclamationMapper.ReclamationDtoToReclamation(reclamationDto);
-            r.setStatus(s);
-            reclamationRepository.save(r);
+
+            reclamationRepository.save(reclamation);
         }
 
 
