@@ -50,41 +50,45 @@ public class ReclamationServiceImpl implements ReclamationService {
     @Override
     public void saveReclamation(ReclamationDto reclamationDto,List<MultipartFile> multipart) throws IOException {
         List<ReclamationDto> reclamationDtoList= new ArrayList<ReclamationDto>();
-        if (!Files.exists(Paths.get(outPath))) {
-            new File(outPath).mkdir();
-        }
 
-        String  outPath2=outPath+reclamationDto.getId();
-
-
-        if (!Files.exists(Paths.get(outPath2))) {
-            new File(outPath2).mkdir();
-        }
         Status s= statusRepository.findByCode("EV");
-        System.out.println("<<<<<<<<<"+s.getLibelle());
 
-//        Reclamation reclamation= reclamationRepository.save(reclamationMapper.ReclamationDtoToReclamation(reclamationDto));
-//
-//        for(MultipartFile file:multipart){
-//            int i=0;
-//            if(reclamationDto.getChemainPremierPhoto()==null){
-//                reclamationDto.setChemainPremierPhoto(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT0"+reclamation.getId()+i++);
-//            }
-//            else {
-//                if(reclamationDto.getChemainPremierPhoto()!=null && reclamationDto.getChemainDeuxsiemePhoto()==null){
-//                    reclamationDto.setChemainPremierPhoto(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT"+reclamation.getId()+i++);
-//                }
-//            }
-//
-//            byte[] data=file.getBytes();
-//            Path path= Paths.get(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT");
-//
-//            Files.write(path, data);
-//
-//        }
-        Reclamation r=reclamationMapper.ReclamationDtoToReclamation(reclamationDto);
-        r.setStatus(s);
-        reclamationRepository.save(r);
+        Reclamation reclamation= reclamationRepository.save(reclamationMapper.ReclamationDtoToReclamation(reclamationDto));
+        if(multipart!=null){
+            if (!Files.exists(Paths.get(outPath))) {
+                new File(outPath).mkdir();
+            }
+
+            String  outPath2=outPath+reclamationDto.getId();
+
+
+            if (!Files.exists(Paths.get(outPath2))) {
+                new File(outPath2).mkdir();
+            }
+
+            for(MultipartFile file:multipart){
+                int i=0;
+                if(reclamationDto.getChemainPremierPhoto()==null){
+                    reclamationDto.setChemainPremierPhoto(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT"+reclamation.getId()+i++);
+                }
+                else {
+                    if(reclamationDto.getChemainPremierPhoto()!=null && reclamationDto.getChemainDeuxsiemePhoto()==null){
+                        reclamationDto.setChemainDeuxsiemePhoto(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT"+reclamation.getId()+i++);
+                    }
+                }
+
+                byte[] data=file.getBytes();
+                Path path= Paths.get(outPath2+slash+file.getOriginalFilename()+"TEXTTEXT"+reclamation.getId()+i++);
+
+                Files.write(path, data);
+
+            }
+            Reclamation r=reclamationMapper.ReclamationDtoToReclamation(reclamationDto);
+            r.setStatus(s);
+            reclamationRepository.save(r);
+        }
+
+
     }
 
     @Override
