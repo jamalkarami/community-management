@@ -24,6 +24,7 @@ public class SuggestionDto {
     private String commentaire;
     private String message;
     private Date createdAt;
+    private String adresse;
     private TypeReclamation typeSuggestion;
     private SousTypeReclamation innerTypeSuggestion;
     private Users users;

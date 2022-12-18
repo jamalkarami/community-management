@@ -29,6 +29,7 @@ public class ReclamationDto {
     private Date createdAt;
     private String chemainPremierPhoto;
     private String chemainDeuxsiemePhoto;
+    private String adresse;
     private TypeReclamation typeReclamation;
     private SousTypeReclamation innerTypeReclamation;
     private Users users;

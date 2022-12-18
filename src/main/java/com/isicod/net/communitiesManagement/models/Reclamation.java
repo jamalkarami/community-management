@@ -27,6 +27,7 @@ public class Reclamation {
     private String chemainPremierPhoto;
     private String chemainDeuxsiemePhoto;
     private String satisfait;
+    private String adresse;
     @CreationTimestamp
     private Date createdAt;
 

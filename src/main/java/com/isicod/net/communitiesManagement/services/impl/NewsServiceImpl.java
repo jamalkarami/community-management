@@ -69,7 +69,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<News> getNewsValidation() {
-        List<News> news=  newsRepository.findByValidation(true);
+        List<News> news=  newsRepository.findByValidationTrue();
         return news;
     }
 
