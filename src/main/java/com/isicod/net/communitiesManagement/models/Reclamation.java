@@ -43,5 +43,6 @@ public class Reclamation {
     private Status status;
 
 
+    private String messageCloture;
 
 }

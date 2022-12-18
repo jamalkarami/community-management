@@ -32,7 +32,7 @@ public interface ReclamationService {
 
     public Reclamation citoyenSatisfaitNonSatisfait(Long idUser, String satisfait);
 
-    public Reclamation cloturerReclamation(Long idReclamation);
+    public Reclamation cloturerReclamation(Long idReclamation, String message);
 
     public File downloadReclamationFile(String Url) throws IOException;
 

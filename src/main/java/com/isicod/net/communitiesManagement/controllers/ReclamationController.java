@@ -85,8 +85,8 @@ public class ReclamationController {
     }
 
     @PutMapping("cloturerReclamation/{idReclamation}")
-    public Reclamation cloturerReclamation(@PathVariable Long idReclamation){
-        return reclamationService.cloturerReclamation(idReclamation);
+    public Reclamation cloturerReclamation(@PathVariable Long idReclamation, @RequestBody String message){
+        return reclamationService.cloturerReclamation(idReclamation, message);
     }
 
     @GetMapping(value = "downloadReclamationFile")
@@ -112,6 +112,5 @@ public class ReclamationController {
         InputStreamResource resource = new InputStreamResource(new
                 FileInputStream(file));
         return ResponseEntity.ok().body(resource);
-
     }
 }

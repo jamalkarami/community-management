@@ -11,10 +11,15 @@ import com.isicod.net.communitiesManagement.repositories.UsersRepository;
 import com.isicod.net.communitiesManagement.services.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,43 +55,30 @@ public class SuggestionServiceImpl implements SuggestionService {
     @Override
     public void saveSuggestion(SuggestionDto suggestionDto, List<MultipartFile> multipart) throws IOException {
         Status s= statusRepository.findByCode("EV");
-//        Suggestion r=suggestionMapper.SuggestionDtoToSuggestion(suggestionDto);
-//        r.setStatus(s);
-//        suggestionRepository.save(r);
-
         suggestionDto.setStatus(s);
         Suggestion suggestion= suggestionRepository.save(suggestionMapper.SuggestionDtoToSuggestion(suggestionDto));
         if(multipart!=null){
             if (!Files.exists(Paths.get(outPath))) {
                 new File(outPath).mkdir();
             }
-
-            String  outPath2=outPath+suggestionDto.getId();
-
-
-            if (!Files.exists(Paths.get(outPath2))) {
-                new File(outPath2).mkdir();
-            }
             int i=0;
             for(MultipartFile file:multipart){
 
                 if(suggestion.getChemainPremierPhoto()==null){
-                    suggestion.setChemainPremierPhoto(outPath2+slash+"photo-"+ suggestion.getId()+ "-" + i+".jpg");
+                    suggestion.setChemainPremierPhoto("reclamation-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
                 }
                 else {
                     if(suggestion.getChemainPremierPhoto()!=null && suggestion.getChemainDeuxsiemePhoto()==null){
-                        suggestion.setChemainDeuxsiemePhoto(outPath2+slash+"photo-"+ suggestion.getId()+ "-" + i+".jpg");
+                        suggestion.setChemainDeuxsiemePhoto("reclamation-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
                     }
                 }
 
                 byte[] data=file.getBytes();
-                Path path= Paths.get(outPath2+slash+"photo-"+ suggestion.getId()+ "-" + i+".jpg");
+                Path path= Paths.get(outPath+slash+"reclamation-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
 
                 Files.write(path, data);
                 i++;
-
             }
-
             suggestionRepository.save(suggestion);
         }
     }
@@ -122,4 +114,31 @@ public class SuggestionServiceImpl implements SuggestionService {
         return suggestionRepository.findAll();
     }
 
+    @GetMapping(value = "downloadSuggestionFile")
+    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url) throws IOException {
+        if (url == null) {
+            throw new IOException();
+        }
+        File file = new File(this.outPath+url);
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException();
+        }
+        InputStreamResource resource = new InputStreamResource(new
+                FileInputStream(file));
+        return ResponseEntity.ok().body(resource);
+    }
+
+    @GetMapping(value = "downloadSuggestionDeuxiemeFile")
+    public ResponseEntity<InputStreamResource> downloadSuggestionDeuxiemeFile(@RequestParam String url) throws IOException {
+        if (url == null) {
+            throw new IOException();
+        }
+        File file = new File(this.outPath+url);
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException();
+        }
+        InputStreamResource resource = new InputStreamResource(new
+                FileInputStream(file));
+        return ResponseEntity.ok().body(resource);
+    }
 }
