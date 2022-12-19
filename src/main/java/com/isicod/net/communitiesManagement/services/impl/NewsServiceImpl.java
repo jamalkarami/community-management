@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,6 +79,27 @@ public class NewsServiceImpl implements NewsService {
     public List<News> getNewsApprovation() {
         List<News> news=  newsRepository.findByValidation(false);
         return news;
+    }
+
+    @Override
+    public File downloadNewsFile(String photoName) throws IOException {
+        File file = new File(this.outPath+photoName);
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException();
+        }
+        return file;
+    }
+
+    @Override
+    public List<String> getPhotoNews(Long idNews) {
+        List<Photos> photos=photosRepository.findByNews(idNews);
+        List<String> photosUrl= new ArrayList<String>();
+
+        for(Photos photo:photos){
+            photosUrl.add("news/downloadReclamationFile/"+photo.getChemain());
+        }
+
+        return photosUrl;
     }
 
     @Override

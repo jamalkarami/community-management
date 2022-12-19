@@ -52,4 +52,23 @@ public class NewsController {
     public News changeValidationToTrue(@PathVariable Long idNews) {
         return newsService.changeValidationToTrue(idNews);
     }
+
+
+    @GetMapping(value = "downloadNewsFile/{photoName}")
+    public ResponseEntity<InputStreamResource> downloadNewsFile(@PathVariable String photoName) throws IOException {
+        if (photoName == null) {
+            throw new IOException();
+        }
+
+        File file = newsService.downloadNewsFile(photoName);
+        InputStreamResource resource = new InputStreamResource(new
+                FileInputStream(file));
+        return ResponseEntity.ok().body(resource);
+
+    }
+
+    @GetMapping(value = "newsPhotos/{idReclamation}")
+    public List<String> getNewsPhotos(@PathVariable Long idNews){
+        return newsService.getPhotoNews(idNews);
+    }
 }

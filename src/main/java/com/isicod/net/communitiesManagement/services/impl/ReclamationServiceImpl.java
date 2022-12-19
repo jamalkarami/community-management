@@ -83,6 +83,7 @@ public class ReclamationServiceImpl implements ReclamationService {
     public List<Reclamation> getReclamationsOfGerant(Long idGerant,String status) {
         System.out.println(idGerant);
         Gerant gerant=gerantRepository.findById(idGerant).get();
+
         return reclamationRepository.getReclamationsOfGerant(gerant.getProfil().getId(),status);
     }
 
@@ -111,7 +112,14 @@ public class ReclamationServiceImpl implements ReclamationService {
 
     @Override
     public List<Reclamation> getReclamationByStatus(Long idUser, String status) {
-       return reclamationRepository.getReclamationByStatus(idUser,status);
+        List<Reclamation> listReclamation= new ArrayList<Reclamation>();
+        if(status.equals("TRN")){
+          return  reclamationRepository.getReclamationByStatusAndNoSatisfait(idUser);
+        }
+        else{
+            return    reclamationRepository.getReclamationByStatus(idUser,status);
+        }
+
     }
 
     @Override
@@ -159,27 +167,33 @@ public class ReclamationServiceImpl implements ReclamationService {
         return reclamationRepository.save(reclamation);
     }
 
-//    @Override
-//    public File downloadReclamationFile(String Url) throws IOException{
-//        File file = new File(this.outPath+Url);
-//        if (!file.exists() || !file.isFile()) {
-//            throw new IOException();
-//        }
-//        return file;
-//    }
-//
-//    @Override
-//    public List<String> getPhotoReclamation(Long idReclamation) {
-//       List<Photos> photos=photosRepository.findByReclamation(idReclamation);
-//        List<String> photosUrl= new ArrayList<String>();
-//
-//        for(Photos photo:photos){
-//            photosUrl.add("reclamation/downloadReclamationFile/"+photo.getChemain());
-//        }
-//
-//
-//       return photosUrl;
-//
-//
-//    }
+    @Override
+    public File downloadReclamationFile(String Url) throws IOException{
+        File file = new File(this.outPath+Url);
+        if (!file.exists() || !file.isFile()) {
+            throw new IOException();
+        }
+        return file;
+    }
+
+    @Override
+    public List<String> getPhotoReclamation(Long idReclamation) {
+       List<Photos> photos=photosRepository.findByReclamation(idReclamation);
+        List<String> photosUrl= new ArrayList<String>();
+
+        for(Photos photo:photos){
+            photosUrl.add("reclamation/downloadReclamationFile/"+photo.getChemain());
+        }
+
+
+       return photosUrl;
+
+
+    }
+
+    @Override
+    public List<Reclamation> getGerantByStatutAndNonSatisfait(Long idUser) {
+        Gerant gerant=gerantRepository.findById(idUser).get();
+        return reclamationRepository.getReclamationByStatusAndNonSatifait(gerant.getProfil().getId());
+    }
 }

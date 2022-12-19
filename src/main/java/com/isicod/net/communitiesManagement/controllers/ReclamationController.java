@@ -89,21 +89,26 @@ public class ReclamationController {
         return reclamationService.cloturerReclamation(idReclamation, message);
     }
 
-//    @GetMapping(value = "downloadReclamationFile/{photoName}")
-//    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url, @PathVariable String photoName) throws IOException {
-//        if (url == null) {
-//            throw new IOException();
-//        }
-//
-//        File file = reclamationService.downloadReclamationFile(url);
-//        InputStreamResource resource = new InputStreamResource(new
-//                FileInputStream(file));
-//        return ResponseEntity.ok().body(resource);
-//
-//    }
-//
-//    @GetMapping(value = "reclamationPhotos/{idReclamation}")
-//    public List<String> getReclamationPhotos(@PathVariable Long idReclamation){
-//        return reclamationService.getPhotoReclamation(idReclamation);
-//    }
+    @GetMapping(value = "downloadReclamationFile/{photoName}")
+    public ResponseEntity<InputStreamResource> downloadReclamationFile(@PathVariable String photoName) throws IOException {
+        if (photoName == null) {
+            throw new IOException();
+        }
+
+        File file = reclamationService.downloadReclamationFile(photoName);
+        InputStreamResource resource = new InputStreamResource(new
+                FileInputStream(file));
+        return ResponseEntity.ok().body(resource);
+
+    }
+
+    @GetMapping(value = "reclamationPhotos/{idReclamation}")
+    public List<String> getReclamationPhotos(@PathVariable Long idReclamation){
+        return reclamationService.getPhotoReclamation(idReclamation);
+    }
+
+    @GetMapping("reclamationsOfGerantByStatusAndNonsatisfait/{idUser}")
+    public List<Reclamation> getGerantByStatutAndNonSatisfait(@PathVariable Long idUser){
+        return reclamationService.getGerantByStatutAndNonSatisfait(idUser);
+    }
 }

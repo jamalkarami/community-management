@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -109,31 +110,53 @@ public class SuggestionServiceImpl implements SuggestionService {
         return suggestionRepository.findAll();
     }
 
-    @GetMapping(value = "downloadSuggestionFile")
-    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url) throws IOException {
-        if (url == null) {
-            throw new IOException();
-        }
-        File file = new File(this.outPath+url);
+
+
+//    @GetMapping(value = "downloadSuggestionFile")
+//    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url) throws IOException {
+//        if (url == null) {
+//            throw new IOException();
+//        }
+//        File file = new File(this.outPath+url);
+//        if (!file.exists() || !file.isFile()) {
+//            throw new IOException();
+//        }
+//        InputStreamResource resource = new InputStreamResource(new
+//                FileInputStream(file));
+//        return ResponseEntity.ok().body(resource);
+//    }
+    @Override
+    public File downloadSuggestionFile(String photoName) throws IOException {
+        File file = new File(this.outPath+photoName);
         if (!file.exists() || !file.isFile()) {
             throw new IOException();
         }
-        InputStreamResource resource = new InputStreamResource(new
-                FileInputStream(file));
-        return ResponseEntity.ok().body(resource);
+        return file;
     }
 
-    @GetMapping(value = "downloadSuggestionDeuxiemeFile")
-    public ResponseEntity<InputStreamResource> downloadSuggestionDeuxiemeFile(@RequestParam String url) throws IOException {
-        if (url == null) {
-            throw new IOException();
+    @Override
+    public List<String> getPhotoSuggestion(Long idSuggestion) {
+        List<Photos> photos=photosRepository.findBySuggestion(idSuggestion);
+        List<String> photosUrl= new ArrayList<String>();
+
+        for(Photos photo:photos){
+            photosUrl.add("suggestion/downloadReclamationFile/"+photo.getChemain());
         }
-        File file = new File(this.outPath+url);
-        if (!file.exists() || !file.isFile()) {
-            throw new IOException();
-        }
-        InputStreamResource resource = new InputStreamResource(new
-                FileInputStream(file));
-        return ResponseEntity.ok().body(resource);
+
+        return photosUrl;
     }
+
+//    @GetMapping(value = "downloadSuggestionDeuxiemeFile")
+//    public ResponseEntity<InputStreamResource> downloadSuggestionDeuxiemeFile(@RequestParam String url) throws IOException {
+//        if (url == null) {
+//            throw new IOException();
+//        }
+//        File file = new File(this.outPath+url);
+//        if (!file.exists() || !file.isFile()) {
+//            throw new IOException();
+//        }
+//        InputStreamResource resource = new InputStreamResource(new
+//                FileInputStream(file));
+//        return ResponseEntity.ok().body(resource);
+//    }
 }

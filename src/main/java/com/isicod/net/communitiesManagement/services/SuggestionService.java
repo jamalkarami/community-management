@@ -6,6 +6,7 @@ import com.isicod.net.communitiesManagement.models.Reclamation;
 import com.isicod.net.communitiesManagement.models.Suggestion;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,4 +22,8 @@ public interface SuggestionService {
     public List<Suggestion> getSuggestionByStatusAndUser(Long idUser, String status);
 
     public List<Suggestion> getAllSuggestion();
+
+    public File downloadSuggestionFile(String photoName) throws IOException;
+
+    public List<String> getPhotoSuggestion(Long idReclamation) ;
 }
