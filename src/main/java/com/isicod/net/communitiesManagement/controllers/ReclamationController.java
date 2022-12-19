@@ -89,8 +89,8 @@ public class ReclamationController {
         return reclamationService.cloturerReclamation(idReclamation, message);
     }
 
-    @GetMapping(value = "downloadReclamationFile")
-    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url) throws IOException {
+    @GetMapping(value = "downloadReclamationFile/{photoName}")
+    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url, @PathVariable String photoName) throws IOException {
         if (url == null) {
             throw new IOException();
         }
@@ -112,5 +112,10 @@ public class ReclamationController {
         InputStreamResource resource = new InputStreamResource(new
                 FileInputStream(file));
         return ResponseEntity.ok().body(resource);
+    }
+
+    @GetMapping(value = "reclamation-photos/{idReclamation}")
+    public List<String> getReclamationPhotos(@PathVariable Long idReclamation ){
+        return reclamationService.getPhotoReclamation(idReclamation);
     }
 }

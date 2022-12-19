@@ -176,4 +176,19 @@ public class ReclamationServiceImpl implements ReclamationService {
         }
         return file;
     }
+
+    @Override
+    public List<String> getPhotoReclamation(Long idReclamation) {
+       List<Photos> photos=photosRepository.findByReclamation(idReclamation);
+        List<String> photosUrl= new ArrayList<String>();
+
+        for(Photos photo:photos){
+            photosUrl.add("reclamation/downloadReclamationFile/"+photo.getChemain());
+        }
+
+
+       return photosUrl;
+
+
+    }
 }
