@@ -2,7 +2,9 @@ package com.isicod.net.communitiesManagement.services.impl;
 
 import com.isicod.net.communitiesManagement.dto.NewsDto;
 import com.isicod.net.communitiesManagement.models.News;
+import com.isicod.net.communitiesManagement.models.Photos;
 import com.isicod.net.communitiesManagement.repositories.NewsRepository;
+import com.isicod.net.communitiesManagement.repositories.PhotosRepository;
 import com.isicod.net.communitiesManagement.services.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,9 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private NewsRepository newsRepository;
 
+    @Autowired
+    private PhotosRepository photosRepository;
+
     @Override
     public void saveNews(NewsDto news) {
         News news1 = new News();
@@ -44,14 +49,10 @@ public class NewsServiceImpl implements NewsService {
             int i=0;
             for(MultipartFile file:news.getFiles()){
 
-                if(savedNews.getPathFirstPhoto()==null){
-                    savedNews.setPathFirstPhoto("news-"+ savedNews.getId()+ "-" + i+"-" + file.getOriginalFilename());
-                }
-                else {
-                    if(savedNews.getPathFirstPhoto()!=null && savedNews.getPathSecondPhoto()==null){
-                        savedNews.setPathSecondPhoto("news-"+ savedNews.getId()+ "-" + i+"-" + file.getOriginalFilename());
-                    }
-                }
+                Photos photosReclamation=new Photos();
+                photosReclamation.setChemain("reclamation-"+ savedNews.getId()+ "-" + i+"-" + file.getOriginalFilename());
+                photosReclamation.setNews(savedNews);
+                photosRepository.save(photosReclamation);
 
                 byte[] data= new byte[0];
                 try {

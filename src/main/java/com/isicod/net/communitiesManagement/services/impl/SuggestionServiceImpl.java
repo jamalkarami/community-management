@@ -4,10 +4,7 @@ import com.isicod.net.communitiesManagement.dto.SuggestionDto;
 import com.isicod.net.communitiesManagement.mapper.ReclamationMapper;
 import com.isicod.net.communitiesManagement.mapper.SuggestionMapper;
 import com.isicod.net.communitiesManagement.models.*;
-import com.isicod.net.communitiesManagement.repositories.GerantRepository;
-import com.isicod.net.communitiesManagement.repositories.StatusRepository;
-import com.isicod.net.communitiesManagement.repositories.SuggestionRepository;
-import com.isicod.net.communitiesManagement.repositories.UsersRepository;
+import com.isicod.net.communitiesManagement.repositories.*;
 import com.isicod.net.communitiesManagement.services.SuggestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +47,9 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     @Autowired
     SuggestionMapper suggestionMapper;
-
+    
+    @Autowired
+    private PhotosRepository photosRepository;
 
     @Override
     public void saveSuggestion(SuggestionDto suggestionDto, List<MultipartFile> multipart) throws IOException {
@@ -64,17 +63,13 @@ public class SuggestionServiceImpl implements SuggestionService {
             int i=0;
             for(MultipartFile file:multipart){
 
-                if(suggestion.getChemainPremierPhoto()==null){
-                    suggestion.setChemainPremierPhoto("reclamation-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
-                }
-                else {
-                    if(suggestion.getChemainPremierPhoto()!=null && suggestion.getChemainDeuxsiemePhoto()==null){
-                        suggestion.setChemainDeuxsiemePhoto("reclamation-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
-                    }
-                }
+                Photos photosReclamation=new Photos();
+                photosReclamation.setChemain("suggestion-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
+                photosReclamation.setSuggestion(suggestion);
+                photosRepository.save(photosReclamation);
 
                 byte[] data=file.getBytes();
-                Path path= Paths.get(outPath+slash+"reclamation-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
+                Path path= Paths.get(outPath+slash+"suggestion-"+ suggestion.getId()+ "-" + i+"-" + file.getOriginalFilename());
 
                 Files.write(path, data);
                 i++;

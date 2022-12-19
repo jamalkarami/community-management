@@ -39,6 +39,8 @@ public class ReclamationServiceImpl implements ReclamationService {
     private ReclamationMapper reclamationMapper;
     @Autowired
     StatusRepository statusRepository;
+    @Autowired
+    private PhotosRepository photosRepository;
 
     @Override
     public List<Reclamation> findReclamationsofCitoyen(Long id) {
@@ -50,6 +52,7 @@ public class ReclamationServiceImpl implements ReclamationService {
     public void saveReclamation(ReclamationDto reclamationDto,List<MultipartFile> multipart) throws IOException {
         Status s= statusRepository.findByCode("EV");
         reclamationDto.setStatus(s);
+
         Reclamation reclamation= reclamationRepository.save(reclamationMapper.ReclamationDtoToReclamation(reclamationDto));
         if(multipart!=null){
             if (!Files.exists(Paths.get(outPath))) {
@@ -57,15 +60,10 @@ public class ReclamationServiceImpl implements ReclamationService {
             }
             int i=0;
             for(MultipartFile file:multipart){
-
-                if(reclamation.getChemainPremierPhoto()==null){
-                    reclamation.setChemainPremierPhoto("reclamation-"+ reclamation.getId()+ "-" + i+"-" + file.getOriginalFilename());
-                }
-                else {
-                    if(reclamation.getChemainPremierPhoto()!=null && reclamation.getChemainDeuxsiemePhoto()==null){
-                        reclamation.setChemainDeuxsiemePhoto("reclamation-"+ reclamation.getId()+ "-" + i+"-" + file.getOriginalFilename());
-                    }
-                }
+                Photos photosReclamation=new Photos();
+                photosReclamation.setChemain("reclamation-"+ reclamation.getId()+ "-" + i+"-" + file.getOriginalFilename());
+                photosReclamation.setReclamation(reclamation);
+                photosRepository.save(photosReclamation);
 
                 byte[] data=file.getBytes();
                 Path path= Paths.get(outPath+slash+"reclamation-"+ reclamation.getId()+ "-" + i+"-" + file.getOriginalFilename());

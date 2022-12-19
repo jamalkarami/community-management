@@ -23,20 +23,11 @@ public class SuggestionController {
          suggestionService.saveSuggestion(suggestionDto,suggestionDto.getFiles());
     }
 
-    @GetMapping("suggestionOfCitoyen/{id}")
+    @GetMapping("suggestions/{id}")
     public List<Suggestion> getSuggestionOfCitoyen(@PathVariable Long id){
         return suggestionService.findSuggestionofCitoyen(id);
     }
 
-    @GetMapping("suggestionsOfGerant/{idGerant}")
-    public List<Suggestion> getSuggestionOfGerant(@PathVariable Long idGerant){
-        return suggestionService.getSuggestionOfGerant(idGerant);
-    }
-
-    @GetMapping("suggestionOfPresident")
-    public List<Suggestion> getSuggestionOfPresident(){
-        return suggestionService.getSuggestionOfPresident(ParametrageConstants.DUREE_ATTENTE_BY_SECONDES);
-    }
 
     @GetMapping("SuggestionsByStatusAndUser/{idUser}/{status}")
     public List<Suggestion> getSuggestionByStatus(@PathVariable Long idUser, @PathVariable String status){

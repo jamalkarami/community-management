@@ -14,5 +14,5 @@ public interface NewsRepository extends JpaRepository<News,Long> {
     @Query(value = FIND_BY_VALIDATION_TRUE,nativeQuery = true)
     public List<News> findByValidationTrue();
     static final String FIND_BY_VALIDATION_TRUE="SELECT * " +
-            "FROM public.news where validation = true order by createdAt; ";
+            "FROM public.news where validation = true order by created_at; ";
 }
