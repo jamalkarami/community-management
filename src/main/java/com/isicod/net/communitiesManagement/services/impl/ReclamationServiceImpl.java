@@ -159,36 +159,27 @@ public class ReclamationServiceImpl implements ReclamationService {
         return reclamationRepository.save(reclamation);
     }
 
-    @Override
-    public File downloadReclamationFile(String Url) throws IOException{
-        File file = new File(this.outPath+Url);
-        if (!file.exists() || !file.isFile()) {
-            throw new IOException();
-        }
-        return file;
-    }
-
-    @Override
-    public File downloadReclamationDeuxiemeFile(String Url) throws IOException {
-        File file = new File(this.outPath+Url);
-        if (!file.exists() || !file.isFile()) {
-            throw new IOException();
-        }
-        return file;
-    }
-
-    @Override
-    public List<String> getPhotoReclamation(Long idReclamation) {
-       List<Photos> photos=photosRepository.findByReclamation(idReclamation);
-        List<String> photosUrl= new ArrayList<String>();
-
-        for(Photos photo:photos){
-            photosUrl.add("reclamation/downloadReclamationFile/"+photo.getChemain());
-        }
-
-
-       return photosUrl;
-
-
-    }
+//    @Override
+//    public File downloadReclamationFile(String Url) throws IOException{
+//        File file = new File(this.outPath+Url);
+//        if (!file.exists() || !file.isFile()) {
+//            throw new IOException();
+//        }
+//        return file;
+//    }
+//
+//    @Override
+//    public List<String> getPhotoReclamation(Long idReclamation) {
+//       List<Photos> photos=photosRepository.findByReclamation(idReclamation);
+//        List<String> photosUrl= new ArrayList<String>();
+//
+//        for(Photos photo:photos){
+//            photosUrl.add("reclamation/downloadReclamationFile/"+photo.getChemain());
+//        }
+//
+//
+//       return photosUrl;
+//
+//
+//    }
 }

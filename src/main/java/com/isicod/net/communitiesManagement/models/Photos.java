@@ -16,6 +16,7 @@ public class Photos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String chemain;
+    private String type;
 
     @ManyToOne
     private Reclamation reclamation;

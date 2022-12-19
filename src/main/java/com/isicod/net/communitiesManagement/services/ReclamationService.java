@@ -34,11 +34,7 @@ public interface ReclamationService {
 
     public Reclamation cloturerReclamation(Long idReclamation, String message);
 
-    public File downloadReclamationFile(String Url) throws IOException;
 
-    public File downloadReclamationDeuxiemeFile(String Url) throws IOException;
-
-    public List<String> getPhotoReclamation(Long idReclamation) ;
 
 
 }

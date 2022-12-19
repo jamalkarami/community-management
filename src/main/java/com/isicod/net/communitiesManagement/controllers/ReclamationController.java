@@ -89,33 +89,21 @@ public class ReclamationController {
         return reclamationService.cloturerReclamation(idReclamation, message);
     }
 
-    @GetMapping(value = "downloadReclamationFile/{photoName}")
-    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url, @PathVariable String photoName) throws IOException {
-        if (url == null) {
-            throw new IOException();
-        }
-
-        File file = reclamationService.downloadReclamationFile(url);
-        InputStreamResource resource = new InputStreamResource(new
-                FileInputStream(file));
-        return ResponseEntity.ok().body(resource);
-
-    }
-
-    @GetMapping(value = "downloadReclamationDeuxiemeFile")
-    public ResponseEntity<InputStreamResource> downloadReclamationDeuxiemeFile(@RequestParam String url) throws IOException {
-        if (url == null) {
-            throw new IOException();
-        }
-
-        File file = reclamationService.downloadReclamationDeuxiemeFile(url);
-        InputStreamResource resource = new InputStreamResource(new
-                FileInputStream(file));
-        return ResponseEntity.ok().body(resource);
-    }
-
-    @GetMapping(value = "reclamationPhotos/{idReclamation}")
-    public List<String> getReclamationPhotos(@PathVariable Long idReclamation){
-        return reclamationService.getPhotoReclamation(idReclamation);
-    }
+//    @GetMapping(value = "downloadReclamationFile/{photoName}")
+//    public ResponseEntity<InputStreamResource> downloadReclamationFile(@RequestParam String url, @PathVariable String photoName) throws IOException {
+//        if (url == null) {
+//            throw new IOException();
+//        }
+//
+//        File file = reclamationService.downloadReclamationFile(url);
+//        InputStreamResource resource = new InputStreamResource(new
+//                FileInputStream(file));
+//        return ResponseEntity.ok().body(resource);
+//
+//    }
+//
+//    @GetMapping(value = "reclamationPhotos/{idReclamation}")
+//    public List<String> getReclamationPhotos(@PathVariable Long idReclamation){
+//        return reclamationService.getPhotoReclamation(idReclamation);
+//    }
 }
