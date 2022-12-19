@@ -114,8 +114,8 @@ public class ReclamationController {
         return ResponseEntity.ok().body(resource);
     }
 
-    @GetMapping(value = "reclamation-photos/{idReclamation}")
-    public List<String> getReclamationPhotos(@PathVariable Long idReclamation ){
+    @GetMapping(value = "reclamationPhotos/{idReclamation}")
+    public List<String> getReclamationPhotos(@PathVariable Long idReclamation){
         return reclamationService.getPhotoReclamation(idReclamation);
     }
 }
