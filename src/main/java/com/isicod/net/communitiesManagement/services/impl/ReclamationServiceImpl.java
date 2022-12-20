@@ -112,14 +112,12 @@ public class ReclamationServiceImpl implements ReclamationService {
 
     @Override
     public List<Reclamation> getReclamationByStatus(Long idUser, String status) {
-        List<Reclamation> listReclamation= new ArrayList<Reclamation>();
         if(status.equals("TRN")){
           return  reclamationRepository.getReclamationByStatusAndNoSatisfait(idUser);
         }
         else{
             return    reclamationRepository.getReclamationByStatus(idUser,status);
         }
-
     }
 
     @Override

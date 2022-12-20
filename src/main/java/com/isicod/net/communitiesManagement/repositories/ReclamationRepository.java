@@ -31,10 +31,17 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
     static final String RECLAMATION_BY_STATUS="select * from reclamation rec, status st where rec.status_id=st.id "+
     "and st.code=:status and rec.users_id=:idUser ";
 
-    @Query(value = RECLAMATION_BY_STATUS_NON_SATISFAIT,nativeQuery = true)
-    public List<Reclamation> getReclamationByStatusAndNoSatisfait(@Param("idUser") Long idUsers );
-    static final String RECLAMATION_BY_STATUS_NON_SATISFAIT="select * from reclamation rec, status st where rec.status_id=st.id "+
-            "and st.code='TR' and rec.users_id=:idUser satisfait='N'";
+    @Query(RECLAMATION_BY_STATUS_NON_SATISFAIT)
+    public List<Reclamation> getReclamationByStatusAndNoSatisfait(@Param("id") Long idProfil);
+    static final String RECLAMATION_BY_STATUS_NON_SATISFAIT="select r from Reclamation r where r.typeReclamation.profil" +
+            ".id=:id and status.code='TR' satisfait='N' ";
+
+
+
+//    @Query(value = RECLAMATION_BY_STATUS_NON_SATISFAIT,nativeQuery = true)
+//    public List<Reclamation> getReclamationByStatusAndNoSatisfait(@Param("idUser") Long idUsers );
+//    static final String RECLAMATION_BY_STATUS_NON_SATISFAIT="select * from reclamation rec, status st where rec.status_id=st.id "+
+//            "and st.code='TR' and rec.users_id=:idUser and satisfait='N' ";
 
     @Query(value = GET_RECLAMATION_NON_SATIFAIT,nativeQuery = true)
     public List<Reclamation> getReclamationNonSatisfait();
