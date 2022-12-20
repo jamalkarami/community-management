@@ -31,10 +31,13 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
     static final String RECLAMATION_BY_STATUS="select * from reclamation rec, status st where rec.status_id=st.id "+
     "and st.code=:status and rec.users_id=:idUser ";
 
-    @Query(RECLAMATION_BY_STATUS_NON_SATISFAIT)
-    public List<Reclamation> getReclamationByStatusAndNoSatisfait(@Param("id") Long idProfil);
-    static final String RECLAMATION_BY_STATUS_NON_SATISFAIT="select r from Reclamation r where r.typeReclamation.profil" +
-            ".id=:id and status.code='TR' satisfait='N' ";
+    @Query(value = RECLAMATION_BY_STATUS_NON_SATISFAIT,nativeQuery = true)
+    public List<Reclamation> getReclamationByStatusAndNoSatisfait(@Param("idUser") Long idUsers );
+    static final String RECLAMATION_BY_STATUS_NON_SATISFAIT="select rec.* from reclamation rec, status st  , type_reclamation tr , profil p " +
+            "where rec.status_id=st.id  " +
+            "and rec.type_reclamation_id=tr.id " +
+            "and p.id=tr.profil_id " +
+            "and st.code='TR' and p.id=:idUser and satisfait='N' ";
 
 
 
@@ -53,8 +56,9 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
             "   and ty.profil_id=pr.id " +
             "  and rec.satisfait='N' ";
 
-    @Query(value = GET_RECLAMATION_BY_STATUS_AND_NON_SATISFAIT,nativeQuery = true)
-    public List<Reclamation> getReclamationByStatusAndNonSatifait(@Param("idUser") Long idUsers);
-    static final String GET_RECLAMATION_BY_STATUS_AND_NON_SATISFAIT="select * from Reclamation r,status st  where r.status_id=st.id and " +
-            " st.code='TR' and satisfait='N' and users_id=:idUser;";
+    @Query(GET_RECLAMATION_BY_STATUS_AND_NON_SATISFAIT)
+    public List<Reclamation> getReclamationByStatusAndNonSatifait(@Param("id") Long idProfil);
+
+    static final String GET_RECLAMATION_BY_STATUS_AND_NON_SATISFAIT="select r from Reclamation r where r.typeReclamation.profil" +
+            ".id=:id and status.code ='TR' and satisfait='N'";
 }
