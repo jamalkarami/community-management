@@ -20,6 +20,18 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
     @Query(RECLAMATIONS_OF_GERANT)
     public List<Reclamation> getReclamationsOfGerant(@Param("id") Long idProfil,@Param("status") String status);
 
+    static final String RECLAMATIONS_OF_GERANT_TRS="select r from Reclamation r where r.typeReclamation.profil" +
+            ".id=:id and r.status.code=:status and r.satisfait=null";
+
+    @Query(RECLAMATIONS_OF_GERANT_TRS)
+    public List<Reclamation> getReclamationsOfGerantTRS(@Param("id") Long idProfil,@Param("status") String status);
+
+    static final String RECLAMATIONS_OF_GERANT_TRNS="select r from Reclamation r where r.typeReclamation.profil" +
+            ".id=:id and r.status.code=:status and r.satisfait='N'";
+
+    @Query(RECLAMATIONS_OF_GERANT_TRNS)
+    public List<Reclamation> getReclamationsOfGerantTRNS(@Param("id") Long idProfil,@Param("status") String status);
+
     static final String RECLAMATIONS_OF_PRESIDENT="Select r from Reclamation r where (r.seenByGerant=null OR r.seenByGerant=false) " +
             "AND EXTRACT(EPOCH FROM (now() - r.createdAt)) >= :secondes and status.code='EV' ";
 
