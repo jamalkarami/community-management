@@ -16,6 +16,10 @@ public interface ReclamationService {
 
     public List<Reclamation> getReclamationsOfGerant(Long idGerant,String status);
 
+    public List<Reclamation> getReclamationsOfGerantTRS(Long idGerant,String status);
+
+    public List<Reclamation> getReclamationsOfGerantTRNS(Long idGerant,String status);
+
     public void reclamationSeenByGerant(Long idReclamation);
 
     public List<Reclamation> getReclamationsOfPresident(int secondes);

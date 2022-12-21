@@ -39,6 +39,16 @@ public class ReclamationController {
         return reclamationService.getReclamationsOfGerant(idGerant,status);
     }
 
+    @GetMapping("reclamationsOfGerantTRS/{idGerant}/{status}")
+    public List<Reclamation> getReclamationsOfGerantTRS(@PathVariable Long idGerant,@PathVariable String status){
+        return reclamationService.getReclamationsOfGerantTRS(idGerant,status);
+    }
+
+    @GetMapping("reclamationsOfGerantTRNS/{idGerant}/{status}")
+    public List<Reclamation> getReclamationsOfGerantTRNS(@PathVariable Long idGerant,@PathVariable String status){
+        return reclamationService.getReclamationsOfGerantTRNS(idGerant,status);
+    }
+
     @GetMapping("reclamationSeenByGerant/{idReclamation}")
     public void reclamationSeenByGerant(@PathVariable Long idReclamation){
         reclamationService.reclamationSeenByGerant(idReclamation);
