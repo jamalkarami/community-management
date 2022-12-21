@@ -23,4 +23,9 @@ public class PharmacieServiceImpl implements PharmacieService {
     public List<Pharmacie> getListPharmacie() {
         return pharmacieRepository.getListPharmacie();
     }
+
+    @Override
+    public void deletePharmacie(Long id) {
+        pharmacieRepository.deleteById(id);
+    }
 }

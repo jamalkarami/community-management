@@ -8,4 +8,6 @@ public interface PharmacieService {
     public void savePharmacie(Pharmacie pharmacie);
 
     public List<Pharmacie> getListPharmacie();
+
+    public void deletePharmacie(Long id);
 }

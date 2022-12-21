@@ -25,4 +25,9 @@ public class PharmacieController {
     public List<Pharmacie> getListPharmacieSunday(){
         return pharmacieService.getListPharmacie();
     }
+
+    @DeleteMapping(value = "deletePharmacie/{id}")
+    public void deletePharmacie(@PathVariable Long id){
+        pharmacieService.deletePharmacie(id);
+    }
 }
