@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("apis/suggestion/")
-@CrossOrigin("*")
 public class SuggestionController {
 
     @Autowired

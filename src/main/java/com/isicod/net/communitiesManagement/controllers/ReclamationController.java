@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("apis/reclamation/")
-@CrossOrigin("*")
 public class ReclamationController {
 
     @Autowired
@@ -31,7 +30,7 @@ public class ReclamationController {
 
     @PostMapping("saveReclamation")
     public void saveReclamation(@ModelAttribute ReclamationDto reclamationDto) throws IOException {
-        reclamationService.saveReclamation(reclamationDto,reclamationDto.getFiles());
+        reclamationService.saveReclamation(reclamationDto,reclamationDto.getMultipartPhotos(),reclamationDto.getMultipartVideo());
     }
 
     @GetMapping("reclamationsOfGerant/{idGerant}/{status}")
@@ -66,7 +65,7 @@ public class ReclamationController {
     @PostMapping(value = "saveReclamationWithPhotos", consumes = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.MULTIPART_FORM_DATA_VALUE })
     public void saveReclamationWithPhotos(@ModelAttribute ReclamationDto reclamationDto){
-        reclamationService.saveReclamationWithPhotos(reclamationDto,reclamationDto.getFiles());
+        reclamationService.saveReclamationWithPhotos(reclamationDto,reclamationDto.getMultipartPhotos());
     }
 
     @GetMapping("reclamations/{idUser}/{status}")
@@ -120,5 +119,10 @@ public class ReclamationController {
     @GetMapping("reclamationsOfGerantByStatusAndNonsatisfait/{idUser}")
     public List<Reclamation> getGerantByStatutAndNonSatisfait(@PathVariable Long idUser){
         return reclamationService.getGerantByStatutAndNonSatisfait(idUser);
+    }
+
+    @GetMapping("getReclamationCloture")
+    public List<Reclamation> getReclamationCloture(){
+        return reclamationService.getAllReclamationCloture();
     }
 }

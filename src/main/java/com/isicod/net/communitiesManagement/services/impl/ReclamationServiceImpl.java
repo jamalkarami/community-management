@@ -38,9 +38,11 @@ public class ReclamationServiceImpl implements ReclamationService {
     @Autowired
     private ReclamationMapper reclamationMapper;
     @Autowired
-    StatusRepository statusRepository;
+    private StatusRepository statusRepository;
     @Autowired
     private PhotosRepository photosRepository;
+    @Autowired
+    private VideosRepository videosRepository;
 
     @Override
     public List<Reclamation> findReclamationsofCitoyen(Long id) {
@@ -49,17 +51,17 @@ public class ReclamationServiceImpl implements ReclamationService {
     }
 
     @Override
-    public void saveReclamation(ReclamationDto reclamationDto,List<MultipartFile> multipart) throws IOException {
+    public void saveReclamation(ReclamationDto reclamationDto,List<MultipartFile> multipartPhotos,MultipartFile multipartVideo) throws IOException {
         Status s= statusRepository.findByCode("EV");
         reclamationDto.setStatus(s);
 
         Reclamation reclamation= reclamationRepository.save(reclamationMapper.ReclamationDtoToReclamation(reclamationDto));
-        if(multipart!=null){
+        if(multipartPhotos!=null){
             if (!Files.exists(Paths.get(outPath))) {
                 new File(outPath).mkdir();
             }
             int i=0;
-            for(MultipartFile file:multipart){
+            for(MultipartFile file:multipartPhotos){
                 Photos photosReclamation=new Photos();
                 photosReclamation.setChemain("reclamation-"+ reclamation.getId()+ "-" + i+"-" + file.getOriginalFilename());
                 photosReclamation.setReclamation(reclamation);
@@ -73,8 +75,23 @@ public class ReclamationServiceImpl implements ReclamationService {
 
             }
 
-            reclamationRepository.save(reclamation);
         }
+        if(multipartVideo!=null) {
+            if (!Files.exists(Paths.get(outPath))) {
+                new File(outPath).mkdir();
+            }
+            Videos videos= new Videos();
+            videos.setChemain("reclamation-"+ reclamation.getId()+ "-" + multipartVideo.getOriginalFilename());
+            videos.setReclamation(reclamation);
+            videosRepository.save(videos);
+
+            byte[] data=multipartVideo.getBytes();
+            Path path= Paths.get(outPath+slash+"reclamation-"+ reclamation.getId()+ "-"  + multipartVideo.getOriginalFilename());
+
+            Files.write(path, data);
+
+        }
+        reclamationRepository.save(reclamation);
 
 
     }
@@ -204,4 +221,11 @@ public class ReclamationServiceImpl implements ReclamationService {
         Gerant gerant=gerantRepository.findById(idUser).get();
         return reclamationRepository.getReclamationByStatusAndNonSatifait(gerant.getProfil().getId());
     }
+
+    @Override
+    public List<Reclamation> getAllReclamationCloture() {
+        return reclamationRepository.getReclamationCloture();
+    }
+
+
 }

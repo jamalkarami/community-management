@@ -27,7 +27,12 @@ public class Reclamation {
     private String chemainPremierPhoto;
     private String chemainDeuxsiemePhoto;
     private String satisfait;
-    private String adresse;
+//    private String adresse;
+    private String cartier;
+    private String rue;
+    private Long numero;
+    private Long numeroAppartement;
+
     @CreationTimestamp
     private Date createdAt;
 

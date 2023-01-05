@@ -12,7 +12,7 @@ public interface ReclamationService {
 
     public List<Reclamation> findReclamationsofCitoyen(Long id);
 
-    public void saveReclamation(ReclamationDto reclamation, List<MultipartFile> multipart) throws IOException;
+    public void saveReclamation(ReclamationDto reclamation, List<MultipartFile> multipartPhotos, MultipartFile multipartVideo) throws IOException;
 
     public List<Reclamation> getReclamationsOfGerant(Long idGerant,String status);
 
@@ -43,6 +43,9 @@ public interface ReclamationService {
     public List<String> getPhotoReclamation(Long idReclamation) ;
 
     public List<Reclamation> getGerantByStatutAndNonSatisfait(Long idUser);
+
+    public List<Reclamation> getAllReclamationCloture();
+
 
 
 }

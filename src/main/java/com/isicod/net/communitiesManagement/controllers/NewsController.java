@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("apis/news/")
-@CrossOrigin("*")
 public class NewsController {
 
     @Autowired

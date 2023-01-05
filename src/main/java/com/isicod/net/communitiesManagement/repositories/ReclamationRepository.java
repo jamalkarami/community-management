@@ -73,4 +73,10 @@ public interface ReclamationRepository extends JpaRepository<Reclamation,Long> {
 
     static final String GET_RECLAMATION_BY_STATUS_AND_NON_SATISFAIT="select r from Reclamation r where r.typeReclamation.profil" +
             ".id=:id and status.code ='TR' and satisfait='N'";
+
+    @Query(value = GET_RECLAMATION_CLOTURE ,nativeQuery = true)
+    public List<Reclamation> getReclamationCloture();
+    static final String GET_RECLAMATION_CLOTURE="SELECT * " +
+            " FROM reclamation REC , status st where st.id= rec.status_id " +
+            " and code= 'CL' " ;
 }

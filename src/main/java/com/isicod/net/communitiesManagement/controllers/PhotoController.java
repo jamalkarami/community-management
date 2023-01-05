@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("apis/photo/")
-@CrossOrigin("*")
 public class PhotoController {
     @Autowired
     private PhotoService photoService;

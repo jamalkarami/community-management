@@ -29,11 +29,17 @@ public class ReclamationDto {
     private Date createdAt;
     private String chemainPremierPhoto;
     private String chemainDeuxsiemePhoto;
-    private String adresse;
+//    private String adresse;
+    private String cartier;
+    private String rue;
+    private Long numero;
+    private Long numeroAppartement;
     private TypeReclamation typeReclamation;
     private SousTypeReclamation innerTypeReclamation;
     private Users users;
     private Status status;
 
-    List<MultipartFile> files;
+    List<MultipartFile> multipartPhotos;
+
+    MultipartFile multipartVideo;
 }

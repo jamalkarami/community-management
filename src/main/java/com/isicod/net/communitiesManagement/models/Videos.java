@@ -10,14 +10,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "COMMUNITY")
-
-public class Community {
+@Table(name = "VIDEOS")
+public class Videos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String libelle;
-    private String code;
-    private String chemainPdf;
+    private String chemain;
+
+    @ManyToOne
+    private Reclamation reclamation;
+
+    @ManyToOne
+    private Suggestion suggestion;
+
+    @ManyToOne
+    private News news;
 }
